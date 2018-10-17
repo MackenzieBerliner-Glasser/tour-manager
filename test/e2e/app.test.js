@@ -98,6 +98,35 @@ describe('Tours', () => {
                     }] });
                 });
         });
-
+        it('updates the attendance of a stop', () => {
+            const tourId = createdTours[0]._id;
+            return request(app)
+                .post(`/api/tours/${tourId}/stops`)
+                .send({ zip: '97209' })
+                .then(res => {
+                    const stopId = res.body.stops[0]._id;
+                    return request(app)
+                        .put(`/api/tours/${tourId}/stops/${stopId}/attendance`)
+                        .send({ attendance: 200 })
+                        .then(res => {
+                            expect(res.body.stops[0].attendance).toEqual(200);
+                        });
+                
+                });
+        });
+        it('deletes a stop from tour', () => {
+            const tourId = createdTours[0]._id;
+            return request(app)
+                .post(`/api/tours/${tourId}/stops`)
+                .send({ zip: '97209' })
+                .then(res => {
+                    const stopId = res.body.stops[0]._id;
+                    return request(app)
+                        .delete(`/api/tours/${tourId}/stops/${stopId}`)
+                        .then(result => {
+                            expect(result.body).toEqual(createdTours[0]);
+                        });
+                });
+        });
     });
 });
