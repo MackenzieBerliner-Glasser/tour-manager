@@ -93,8 +93,8 @@ describe('Tours', () => {
                 .then(res => {
                     expect(res.body).toEqual({ ...createdTours[0], stops: [{
                         _id: expect.any(String),
-                        location: expect.any(Object),
-                        weather: expect.any(Object)
+                        location: { city: 'Portland', state: 'OR', zip: '97209' },
+                        weather: { condition: expect.any(String), temperature: expect.any(String) }
                     }] });
                 });
         });
